@@ -33,10 +33,9 @@
     "salesListSDP": {
       "type": "vb/ServiceDataProvider",
       "defaultValue": {
-        "endpoint": "businessObjects/getall_Sales",
-        "idAttribute": "id",
-        "itemsPath": "items",
-        "responseType": "page:getallSalesResponse"
+        "endpoint": "sales/getSales",
+        "responseType": "getallSalesResponse",
+        "itemsPath": "items"
       }
     },
     "getOrdersbycountryListSDP": {

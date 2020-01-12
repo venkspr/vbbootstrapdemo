@@ -109,6 +109,9 @@
         "usmedals": {
             "path": "services/usmedals/service.json"
         },
+        "sales": {
+            "path": "services/sales/service.json"
+        },
         "products": {
             "path": "services/products/service.json"
         },
