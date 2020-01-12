@@ -1,0 +1,193 @@
+{
+  "pageModelVersion": "19.3.1",
+  "title": "Create Contact",
+  "description": "Creates new Contact",
+  "variables": {
+    "contact": {
+      "type": "page:createContactRequest"
+    }
+  },
+  "metadata": {},
+  "types": {
+    "createContactRequest": {
+      "about": "string",
+      "address": "string",
+      "city": "string",
+      "email": "string",
+      "img": "string",
+      "name": "string",
+      "phone": "string",
+      "state": "string",
+      "title": "string",
+      "zip": "string"
+    },
+    "@decorators.createContactRequest": {
+      "endpoint": "create_Contact",
+      "service": "businessObjects",
+      "path": "request"
+    },
+    "businessObjectsServiceErrorResponseType": {
+      "body": {
+        "status": "string",
+        "title": "string",
+        "o_errorDetails": [
+          {
+            "detail": "string",
+            "o_errorCode": "string"
+          }
+        ]
+      },
+      "status": "number"
+    }
+  },
+  "chains": {
+    "goBackChain": {
+      "root": "navigateBack",
+      "actions": {
+        "navigateBack": {
+          "module": "vb/action/builtin/navigateBackAction",
+          "outcomes": {
+            "success": ""
+          }
+        }
+      }
+    },
+    "createContactChain": {
+      "root": "createContact",
+      "variables": {
+        "saveFailureResult": {
+          "type": "page:businessObjectsServiceErrorResponseType"
+        },
+        "errorMessage": {
+          "type": "string"
+        }
+      },
+      "actions": {
+        "createContact": {
+          "module": "vb/action/builtin/restAction",
+          "parameters": {
+            "endpoint": "businessObjects/create_Contact",
+            "body": "[[ $page.variables.contact ]]"
+          },
+          "outcomes": {
+            "success": "fireSuccessNotification",
+            "failure": "assignFailureResult"
+          }
+        },
+        "fireSuccessNotification": {
+          "module": "vb/action/builtin/fireNotificationEventAction",
+          "parameters": {
+            "summary": "Contact saved",
+            "message": "Contact record successfully created",
+            "type": "confirmation",
+            "displayMode": "transient"
+          },
+          "outcomes": {
+            "success": "navigateBack"
+          }
+        },
+        "navigateBack": {
+          "module": "vb/action/builtin/navigateBackAction",
+          "outcomes": {
+            "success": ""
+          }
+        },
+        "assignFailureResult": {
+          "module": "vb/action/builtin/assignVariablesAction",
+          "parameters": {
+            "$chain.variables.saveFailureResult": {
+              "source": "[[ $chain.results.createContact.payload ]]",
+              "mapping": {
+                "$target": "$source",
+                "$target.body.o_errorDetails": {
+                  "source": "$source.body['o:errorDetails'] || []",
+                  "mapping": {
+                    "$target.o_errorCode": "$source['o:errorCode']",
+                    "$target.detail": "$source.detail"
+                  }
+                }
+              }
+            }
+          },
+          "outcomes": {
+            "success": "testFailureDetails"
+          }
+        },
+        "testFailureDetails": {
+          "module": "vb/action/builtin/ifAction",
+          "outcomes": {
+            "true": "handleDetailedErrorMessage",
+            "false": "handleDefaultErrorMessage"
+          },
+          "parameters": {
+            "condition": "[[ $chain.variables.saveFailureResult.body.o_errorDetails[0] ]]"
+          }
+        },
+        "handleDetailedErrorMessage": {
+          "module": "vb/action/builtin/assignVariablesAction",
+          "outcomes": {
+            "success": "fireErrorNotification"
+          },
+          "parameters": {
+            "$chain.variables.errorMessage": {
+              "source": "[[ $chain.variables.saveFailureResult.body.o_errorDetails[0].detail ]]"
+            }
+          }
+        },
+        "handleDefaultErrorMessage": {
+          "module": "vb/action/builtin/assignVariablesAction",
+          "outcomes": {
+            "success": "fireErrorNotification"
+          },
+          "parameters": {
+            "$chain.variables.errorMessage": {
+              "source": "[[ 'Could not create new Contact: status ' + $chain.variables.saveFailureResult.status ]]"
+            }
+          }
+        },
+        "fireErrorNotification": {
+          "module": "vb/action/builtin/fireNotificationEventAction",
+          "parameters": {
+            "summary": "Save failed",
+            "message": "[[ $chain.variables.errorMessage ]]",
+            "type": "error",
+            "displayMode": "persist"
+          },
+          "outcomes": {}
+        }
+      }
+    }
+  },
+  "eventListeners": {
+    "backButtonClicked": {
+      "chains": [
+        {
+          "chainId": "goBackChain"
+        }
+      ]
+    },
+    "saveButtonClicked": {
+      "chains": [
+        {
+          "chainId": "createContactChain"
+        }
+      ]
+    }
+  },
+  "imports": {
+    "components": {
+      "oj-form-layout": {
+        "path": "ojs/ojformlayout"
+      },
+      "oj-input-text": {
+        "path": "ojs/ojinputtext"
+      },
+      "oj-toolbar": {
+        "path": "ojs/ojtoolbar"
+      },
+      "oj-button": {
+        "path": "ojs/ojbutton"
+      }
+    }
+  }
+}

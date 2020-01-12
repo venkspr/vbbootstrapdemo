@@ -1,0 +1,1 @@
+define([],function(){var a=function a(){};a.prototype.clickHandler=function(b){};return a});

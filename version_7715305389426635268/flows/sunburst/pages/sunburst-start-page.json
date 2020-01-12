@@ -1,0 +1,76 @@
+{
+ "pageModelVersion": "19.3.1",
+ "title": "",
+ "description": "",
+ "variables": {
+  "maprovider": {
+			"type": "any"
+		},
+  "areaData": {
+			"type": "any"
+		},
+  "sunBurst": {
+			"type": "any"
+		}
+ },
+ "metadata": {},
+ "types": {},
+ "chains": {
+		"pageLoadAC": {
+			"root": "callModuleFunction1",
+			"description": "",
+			"actions": {
+				"callModuleFunction1": {
+					"module": "vb/action/builtin/callModuleFunctionAction",
+					"parameters": {
+						"module": "[[ $page.functions ]]",
+						"functionName": "loadSunBurstFN"
+					},
+					"outcomes": {
+						"success": "assignVariables1"
+					}
+				},
+				"assignVariables1": {
+					"module": "vb/action/builtin/assignVariablesAction",
+					"parameters": {
+						"$page.variables.sunBurst": {
+							"source": "{{ $chain.results.callModuleFunction1 }}"
+						}
+					}
+				}
+			}
+		}
+	},
+ "eventListeners": {
+		"vbEnter": {
+			"chains": [
+				{
+					"chainId": "pageLoadAC",
+					"parameters": {}
+				}
+			]
+		}
+	},
+ "imports": {
+  "components": {
+   "oj-thematic-map": {
+				"path": "ojs/ojthematicmap"
+			},
+   "oj-thematic-map-area": {
+				"path": "ojs/ojthematicmap"
+			},
+   "oj-sunburst": {
+				"path": "ojs/ojsunburst"
+			},
+   "oj-table": {
+				"path": "ojs/ojtable"
+			},
+   "oj-sunburst-node": {
+				"path": "ojs/ojsunburst"
+			},
+            "boot-box": {
+                "path": "boot-box/loader"
+            }
+  }
+ }
+}

@@ -1,0 +1,180 @@
+{
+  "pageModelVersion": "19.3.1",
+  "title": "",
+  "description": "",
+  "variables": {
+    "getYrsalesListSDP2": {
+      "type": "vb/ServiceDataProvider",
+      "defaultValue": {
+        "endpoint": "yearlySales/getYrsales",
+        "idAttribute": "id",
+        "itemsPath": "items",
+        "responseType": "page:getYrsalesResponse"
+      }
+    },
+    "getYrsalesListSDP3": {
+      "type": "vb/ServiceDataProvider",
+      "defaultValue": {
+        "endpoint": "yearlySales/getYrsales",
+        "idAttribute": "id",
+        "itemsPath": "items",
+        "responseType": "page:getYrsalesResponse2"
+      }
+    },
+    "getYrsalesListSDP4": {
+      "type": "vb/ServiceDataProvider",
+      "defaultValue": {
+        "endpoint": "yrlsales/getYrsales",
+        "idAttribute": "total",
+        "itemsPath": "items",
+        "responseType": "page:getYrsalesResponse3"
+      }
+    },
+    "salesListSDP": {
+      "type": "vb/ServiceDataProvider",
+      "defaultValue": {
+        "endpoint": "businessObjects/getall_Sales",
+        "idAttribute": "id",
+        "itemsPath": "items",
+        "responseType": "page:getallSalesResponse"
+      }
+    },
+    "getOrdersbycountryListSDP": {
+      "type": "vb/ServiceDataProvider",
+      "defaultValue": {
+        "endpoint": "salesByCountry/getOrdersbycountry",
+        "idAttribute": "total",
+        "itemsPath": "items",
+        "responseType": "page:getOrdersbycountryResponse"
+      }
+    }
+  },
+  "metadata": {},
+  "types": {
+    "@decorators.getYrsales": {
+      "endpoint": "getYrsales",
+      "service": "yearlySales",
+      "path": "response"
+    },
+    "getYrsales": {
+      "items": [
+        {
+          "country": "string",
+          "id": "number",
+          "number_of_tourists": "number",
+          "series": "string",
+          "total": "number",
+          "year": "number"
+        }
+      ]
+    },
+    "getYrsalesResponse": {
+      "items": [
+        {
+          "country": "string",
+          "id": "number",
+          "total": "number",
+          "year": "number"
+        }
+      ]
+    },
+    "@decorators.getYrsalesResponse": {
+      "endpoint": "getYrsales",
+      "service": "yearlySales",
+      "path": "response"
+    },
+    "getYrsalesResponse2": {
+      "items": [
+        {
+          "country": "string",
+          "id": "number",
+          "total": "number",
+          "year": "number"
+        }
+      ]
+    },
+    "@decorators.getYrsalesResponse2": {
+      "endpoint": "getYrsales",
+      "service": "yearlySales",
+      "path": "response"
+    },
+    "getYrsalesResponse3": {
+      "items": [
+        {
+          "customername": "string",
+          "total": "number",
+          "yr_date": "number"
+        }
+      ]
+    },
+    "@decorators.getYrsalesResponse3": {
+      "endpoint": "getYrsales",
+      "service": "yrlsales",
+      "path": "response"
+    },
+    "getallSalesResponse": {
+      "items": [
+        {
+          "category": "string",
+          "createdBy": "string",
+          "creationDate": "string",
+          "id": "number",
+          "percentage": "number",
+          "total": "number",
+          "year": "number"
+        }
+      ]
+    },
+    "@decorators.getallSalesResponse": {
+      "endpoint": "getall_Sales",
+      "service": "businessObjects",
+      "path": "response"
+    },
+    "getOrdersbycountryResponse": {
+      "items": [
+        {
+          "country": "string",
+          "total": "number"
+        }
+      ]
+    },
+    "@decorators.getOrdersbycountryResponse": {
+      "endpoint": "getOrdersbycountry",
+      "service": "salesByCountry",
+      "path": "response"
+    }
+  },
+  "chains": {},
+  "eventListeners": {},
+  "imports": {
+    "components": {
+      "boot-box": {
+        "path": "boot-box/loader"
+      },
+      "oj-accordion": {
+        "path": "ojs/ojaccordion"
+      },
+      "oj-collapsible": {
+        "path": "ojs/ojcollapsible"
+      },
+      "oj-chart": {
+        "path": "ojs/ojchart"
+      },
+      "oj-chart-item": {
+        "path": "ojs/ojchart"
+      },
+      "oj-label": {
+        "path": "ojs/ojlabel"
+      },
+      "oj-table": {
+        "path": "ojs/ojtable"
+      },
+      "oj-status-meter-gauge": {
+        "path": "ojs/ojgauge"
+      },
+      "oj-input-date": {
+        "path": "ojs/ojdatetimepicker"
+      }
+    }
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "pageModelVersion": "19.3.1",
+  "title": "",
+  "description": "",
+  "variables": {
+    "treeMapData": {
+      "type": "vb/ArrayDataProvider",
+      "defaultValue": {
+        "itemType": "getUsaMeanIncomeSubregionJson",
+        "idAttribute": "label"
+      }
+    },
+    "treeMapTreeDataProvider": {
+      "type": "any"
+    }
+  },
+  "metadata": {},
+  "types": {
+    "@decorators.getUsaMeanIncomeSubregionJson": {
+      "endpoint": "getUsaMeanIncomeSubregionJson",
+      "service": "usRegionStatePopulation",
+      "path": "response"
+    },
+    "getUsaMeanIncomeSubregionJson": {
+      "color": "string",
+      "label": "string",
+      "nodes": [
+        {
+          "color": "string",
+          "label": "string",
+          "nodes": [
+            {
+              "color": "string",
+              "label": "string",
+              "nodes": [
+                {
+                  "color": "string",
+                  "label": "string",
+                  "shortDesc": "string",
+                  "value": "number",
+                  "meanIncome": "number",
+                  "population": "number"
+                }
+              ],
+              "shortDesc": "string",
+              "value": "number",
+              "meanIncome": "number",
+              "population": "number"
+            }
+          ],
+          "shortDesc": "string",
+          "value": "number",
+          "meanIncome": "number",
+          "population": "number"
+        }
+      ],
+      "shortDesc": "string",
+      "value": "number",
+      "meanIncome": "number",
+      "population": "number"
+    }
+  },
+  "chains": {
+    "pageLoad": {
+      "root": "callRestEndpoint1",
+      "description": "",
+      "actions": {
+        "callRestEndpoint1": {
+          "module": "vb/action/builtin/restAction",
+          "parameters": {
+            "endpoint": "usRegionStatePopulation/getUsaMeanIncomeSubregionJson"
+          },
+          "outcomes": {
+            "success": "assignVariables1"
+          }
+        },
+        "assignVariables1": {
+          "module": "vb/action/builtin/assignVariablesAction",
+          "parameters": {
+            "$page.variables.treeMapData": {
+              "source": {
+                "data": "{{ $chain.results.callRestEndpoint1.body }}"
+              },
+              "reset": "none",
+              "auto": "always"
+            }
+          },
+          "outcomes": {
+            "success": "callModuleFunction1"
+          }
+        },
+        "callModuleFunction1": {
+          "module": "vb/action/builtin/callModuleFunctionAction",
+          "parameters": {
+            "module": "[[ $page.functions ]]",
+            "functionName": "console",
+            "params": [
+              "{{ $page.variables.treeMapData }}"
+            ]
+          },
+          "outcomes": {
+            "success": "assignTreeMap"
+          }
+        },
+        "assignTreeMap": {
+          "module": "vb/action/builtin/callModuleFunctionAction",
+          "parameters": {
+            "module": "[[ $page.functions ]]",
+            "functionName": "assignTreeMapFN",
+            "params": [
+              "{{ $chain.results.callRestEndpoint1.body }}"
+            ]
+          },
+          "outcomes": {
+            "success": "assignVariables2"
+          }
+        },
+        "assignVariables2": {
+          "module": "vb/action/builtin/assignVariablesAction",
+          "parameters": {
+            "$page.variables.treeMapTreeDataProvider": {
+              "source": "{{ $chain.results.assignTreeMap }}"
+            }
+          },
+          "outcomes": {
+            "success": "callComponentMethod1"
+          }
+        },
+        "callComponentMethod1": {
+          "module": "vb/action/builtin/callComponentMethodAction",
+          "parameters": {
+            "component": "{{ document.getElementById('treemap1') }}",
+            "method": "refresh"
+          }
+        }
+      }
+    }
+  },
+  "eventListeners": {
+    "vbEnter": {
+      "chains": [
+        {
+          "chainId": "pageLoad",
+          "parameters": {}
+        }
+      ]
+    }
+  },
+  "imports": {
+    "components": {
+      "boot-box": {
+        "path": "boot-box/loader"
+      },
+      "oj-treemap": {
+        "path": "ojs/ojtreemap"
+      },
+      "oj-treemap-node": {
+        "path": "ojs/ojtreemap"
+      }
+    }
+  }
+}

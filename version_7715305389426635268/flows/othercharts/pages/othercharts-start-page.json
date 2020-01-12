@@ -1,0 +1,100 @@
+{
+  "pageModelVersion": "19.3.1",
+  "title": "",
+  "description": "",
+  "variables": {
+    "getOrdersbycountryListSDP": {
+      "type": "vb/ServiceDataProvider",
+      "defaultValue": {
+        "endpoint": "salesByCountry/getOrdersbycountry",
+        "idAttribute": "total",
+        "itemsPath": "items",
+        "responseType": "page:getOrdersbycountryResponse"
+      }
+    },
+    "getYrsalesListSDP": {
+      "type": "vb/ServiceDataProvider",
+      "defaultValue": {
+        "endpoint": "yearlySales/getYrsales",
+        "idAttribute": "id",
+        "itemsPath": "items",
+        "responseType": "page:getYrsalesResponse"
+      }
+    },
+    "getOrdersbycountryListSDP2": {
+      "type": "vb/ServiceDataProvider",
+      "defaultValue": {
+        "endpoint": "salesByCountry/getOrdersbycountry",
+        "idAttribute": "total",
+        "itemsPath": "items",
+        "responseType": "page:getOrdersbycountryResponse2"
+      }
+    },
+    "fn": {
+      "type": "any",
+      "defaultValue": "eval(function(){ return \"hello\";})"
+    }
+  },
+  "metadata": {},
+  "types": {
+    "getOrdersbycountryResponse": {
+      "items": [
+        {
+          "country": "string",
+          "total": "number"
+        }
+      ]
+    },
+    "@decorators.getOrdersbycountryResponse": {
+      "endpoint": "getOrdersbycountry",
+      "service": "salesByCountry",
+      "path": "response"
+    },
+    "getYrsalesResponse": {
+      "items": [
+        {
+          "country": "string",
+          "id": "number",
+          "total": "number",
+          "year": "number"
+        }
+      ]
+    },
+    "@decorators.getYrsalesResponse": {
+      "endpoint": "getYrsales",
+      "service": "yearlySales",
+      "path": "response"
+    },
+    "getOrdersbycountryResponse2": {
+      "items": [
+        {
+          "country": "string",
+          "total": "number"
+        }
+      ]
+    },
+    "@decorators.getOrdersbycountryResponse2": {
+      "endpoint": "getOrdersbycountry",
+      "service": "salesByCountry",
+      "path": "response"
+    }
+  },
+  "chains": {},
+  "eventListeners": {},
+  "imports": {
+    "components": {
+      "boot-box": {
+        "path": "boot-box/loader"
+      },
+      "oj-chart": {
+        "path": "ojs/ojchart"
+      },
+      "oj-chart-item": {
+        "path": "ojs/ojchart"
+      },
+      "oj-label": {
+        "path": "ojs/ojlabel"
+      }
+    }
+  }
+}

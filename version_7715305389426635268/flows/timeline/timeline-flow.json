@@ -1,0 +1,10 @@
+{
+    "flowModelVersion": "19.3.1",
+    "id": "second",
+    "description": "Flow main",
+    "defaultPage": "timeline-start",
+    "chains": {},
+    "services": {},
+    "types": {},
+    "variables": {}
+}

@@ -1,0 +1,10 @@
+{
+    "flowModelVersion": "19.3.1",
+    "id": "picto",
+    "description": "Flow main",
+    "defaultPage": "picto-start",
+    "chains": {},
+    "services": {},
+    "types": {},
+    "variables": {}
+}

@@ -1,0 +1,10 @@
+{
+    "flowModelVersion": "19.3.1",
+    "id": "treemap",
+    "description": "Flow main",
+    "defaultPage": "treemap-start",
+    "chains": {},
+    "services": {},
+    "types": {},
+    "variables": {}
+}

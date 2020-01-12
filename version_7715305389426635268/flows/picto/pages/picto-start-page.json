@@ -1,0 +1,80 @@
+{
+ "pageModelVersion": "19.3.1",
+ "title": "",
+ "description": "",
+ "variables": {
+        "medalsADP": {
+            "type": "vb/ArrayDataProvider",
+            "defaultValue": {
+                "itemType": "getUsmedals",
+                "idAttribute": "id"
+            }
+        }
+      },
+ "metadata": {},
+ "types": {
+        "@decorators.getUsmedals": {
+            "endpoint": "getUsmedals",
+            "service": "usmedals",
+            "path": "response.items[0]"
+        },
+        "getUsmedals": {
+            "color": "string",
+            "id": "number",
+            "total": "number",
+            "type": "string"
+        }
+      },
+ "chains": {
+        "loadMedals": {
+            "root": "callRestEndpoint1",
+            "description": "",
+            "actions": {
+                "callRestEndpoint1": {
+                    "module": "vb/action/builtin/restAction",
+                    "parameters": {
+                        "endpoint": "usmedals/getUsmedals"
+                    },
+                    "outcomes": {
+                        "success": "assignVariables1"
+                    }
+                },
+                "assignVariables1": {
+                    "module": "vb/action/builtin/assignVariablesAction",
+                    "parameters": {
+                        "$page.variables.medalsADP": {
+                            "source": {
+                                "data": "{{ $chain.results.callRestEndpoint1.body.items }}"
+                            },
+                            "reset": "none",
+                            "auto": "always"
+                        }
+                    }
+                }
+            }
+        }
+      },
+ "eventListeners": {
+        "vbEnter": {
+            "chains": [
+                {
+                    "chainId": "loadMedals",
+                    "parameters": {}
+                }
+            ]
+        }
+      },
+ "imports": {
+		"components": {
+			"boot-box": {
+				"path": "boot-box/loader"
+			},
+			"oj-picto-chart": {
+				"path": "ojs/ojpictochart"
+			},
+			"oj-picto-chart-item": {
+				"path": "ojs/ojpictochart"
+			}
+		}
+	}
+}

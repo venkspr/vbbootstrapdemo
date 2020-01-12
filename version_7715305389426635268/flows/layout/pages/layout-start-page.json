@@ -1,0 +1,225 @@
+{
+ "pageModelVersion": "19.3.1",
+ "title": "",
+ "description": "",
+ "variables": {
+        "getProductsalesweeklyListSDP": {
+            "type": "vb/ServiceDataProvider",
+            "defaultValue": {
+                "endpoint": "productSales/getProductsalesweekly",
+                "idAttribute": "id",
+                "itemsPath": "items",
+                "responseType": "page:getProductsalesweeklyResponse"
+            }
+        },
+        "getYrsalesListSDP": {
+            "type": "vb/ServiceDataProvider",
+            "defaultValue": {
+                "endpoint": "yearlySales/getYrsales",
+                "idAttribute": "id",
+                "itemsPath": "",
+                "responseType": "page:getYrsalesResponse"
+            }
+        },
+        "ojTabBar14822376171SelectedItem": {
+            "type": "string",
+            "defaultValue": "oj-tab-bar--1482237617-1-tab-1"
+        },
+        "getYrsalesListSDP7": {
+            "type": "vb/ServiceDataProvider",
+            "defaultValue": {
+                "endpoint": "yearlySales/getYrsales",
+                "idAttribute": "id",
+                "itemsPath": "items",
+                "responseType": "page:getYrsalesResponse7"
+            }
+        },
+        "getYrsalesListSDP2": {
+            "type": "vb/ServiceDataProvider",
+            "defaultValue": {
+                "endpoint": "yearlySales/getYrsales",
+                "idAttribute": "id",
+                "itemsPath": "items",
+                "responseType": "page:getYrsalesResponse8"
+            }
+        }
+      },
+ "metadata": {},
+ "types": {
+        "@decorators.getProductsalesweekly": {
+            "endpoint": "getProductsalesweekly",
+            "service": "productSales",
+            "path": "response.items[0]"
+        },
+        "getProductsalesweekly": {
+            "id": "number",
+            "percentage": "number",
+            "priceeach": "number",
+            "productline": "string",
+            "quantityordered": "number"
+        },
+        "getProductsalesweeklyResponse": {
+            "items": [
+                {
+                    "id": "number",
+                    "percentage": "number",
+                    "priceeach": "number",
+                    "productline": "string",
+                    "quantityordered": "number"
+                }
+            ]
+        },
+        "@decorators.getProductsalesweeklyResponse": {
+            "endpoint": "getProductsalesweekly",
+            "service": "productSales",
+            "path": "response"
+        },
+        "getYrsalesResponse": [
+            {
+                "country": "string",
+                "id": "number",
+                "total": "number",
+                "year": "number"
+            }
+        ],
+        "@decorators.getYrsalesResponse": {
+            "endpoint": "getYrsales",
+            "service": "yearlySales",
+            "path": "response"
+        },
+        "getYrsalesResponse2": [
+            {
+                "country": "string",
+                "id": "number",
+                "total": "number",
+                "year": "number"
+            }
+        ],
+        "@decorators.getYrsalesResponse2": {
+            "endpoint": "getYrsales",
+            "service": "yearlySales",
+            "path": "response"
+        },
+        "getYrsalesResponse3": [
+            {
+                "country": "string",
+                "id": "number",
+                "total": "number",
+                "year": "number"
+            }
+        ],
+        "@decorators.getYrsalesResponse3": {
+            "endpoint": "getYrsales",
+            "service": "yearlySales",
+            "path": "response"
+        },
+        "getYrsalesResponse4": {
+            "items": [
+                {
+                    "country": "string",
+                    "id": "number",
+                    "total": "number",
+                    "year": "number"
+                }
+            ]
+        },
+        "@decorators.getYrsalesResponse4": {
+            "endpoint": "getYrsales",
+            "service": "yearlySales",
+            "path": "response"
+        },
+        "getYrsalesResponse5": {
+            "items": [
+                {
+                    "country": "string",
+                    "id": "number",
+                    "total": "number",
+                    "year": "number"
+                }
+            ]
+        },
+        "@decorators.getYrsalesResponse5": {
+            "endpoint": "getYrsales",
+            "service": "yearlySales",
+            "path": "response"
+        },
+        "getYrsalesResponse6": {
+            "items": [
+                {
+                    "country": "string",
+                    "id": "number",
+                    "series": "string",
+                    "total": "number",
+                    "year": "number"
+                }
+            ]
+        },
+        "@decorators.getYrsalesResponse6": {
+            "endpoint": "getYrsales",
+            "service": "yearlySales",
+            "path": "response"
+        },
+        "getYrsalesResponse7": {
+            "items": [
+                {
+                    "country": "string",
+                    "id": "number",
+                    "number_of_tourists": "number",
+                    "series": "string",
+                    "total": "number",
+                    "year": "number"
+                }
+            ]
+        },
+        "@decorators.getYrsalesResponse7": {
+            "endpoint": "getYrsales",
+            "service": "yearlySales",
+            "path": "response"
+        },
+        "getYrsalesResponse8": {
+            "items": [
+                {
+                    "country": "string",
+                    "id": "number",
+                    "total": "number",
+                    "year": "number"
+                }
+            ]
+        },
+        "@decorators.getYrsalesResponse8": {
+            "endpoint": "getYrsales",
+            "service": "yearlySales",
+            "path": "response"
+        }
+      },
+ "chains": {},
+ "eventListeners": {},
+ "imports": {
+  "components": {
+   "oj-sunburst": {
+				"path": "ojs/ojsunburst"
+			},
+   "oj-table": {
+				"path": "ojs/ojtable"
+			},
+   "oj-input-number": {
+				"path": "ojs/ojinputnumber"
+			},
+   "oj-chart": {
+				"path": "ojs/ojchart"
+			},
+   "oj-chart-item": {
+				"path": "ojs/ojchart"
+			},
+            "boot-box": {
+                "path": "boot-box/loader"
+            },
+            "oj-tab-bar": {
+                "path": "ojs/ojnavigationlist"
+            },
+            "oj-switcher": {
+                "path": "ojs/ojswitcher"
+            }
+  }
+ }
+}

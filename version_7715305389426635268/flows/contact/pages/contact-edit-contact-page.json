@@ -1,0 +1,291 @@
+{
+  "pageModelVersion": "19.3.1",
+  "title": "Edit Contact",
+  "description": "Updates single Contact record",
+  "variables": {
+    "contact": {
+      "type": "page:updateContactRequest"
+    },
+    "contactId": {
+      "type": "string",
+      "required": true,
+      "input": "fromUrl"
+    },
+    "contactETag": {
+      "type": "string"
+    }
+  },
+  "metadata": {},
+  "types": {
+    "updateContactRequest": {
+      "about": "string",
+      "address": "string",
+      "city": "string",
+      "email": "string",
+      "img": "string",
+      "name": "string",
+      "phone": "string",
+      "state": "string",
+      "title": "string",
+      "zip": "string"
+    },
+    "@decorators.updateContactRequest": {
+      "endpoint": "update_Contact",
+      "service": "businessObjects",
+      "path": "request"
+    },
+    "businessObjectsServiceErrorResponseType": {
+      "body": {
+        "status": "string",
+        "title": "string",
+        "o_errorDetails": [
+          {
+            "detail": "string",
+            "o_errorCode": "string"
+          }
+        ]
+      },
+      "status": "number"
+    }
+  },
+  "chains": {
+    "goBackChain": {
+      "root": "navigateBack",
+      "actions": {
+        "navigateBack": {
+          "module": "vb/action/builtin/navigateBackAction",
+          "outcomes": {
+            "success": ""
+          }
+        }
+      }
+    },
+    "loadContactChain": {
+      "root": "loadContact",
+      "actions": {
+        "loadContact": {
+          "module": "vb/action/builtin/restAction",
+          "parameters": {
+            "endpoint": "businessObjects/get_Contact",
+            "uriParams": {
+              "Contact_Id": "[[ $page.variables.contactId ]]"
+            },
+            "responseType": "page:updateContactRequest"
+          },
+          "outcomes": {
+            "success": "assignPayload",
+            "failure": "fireErrorNotification"
+          }
+        },
+        "assignPayload": {
+          "module": "vb/action/builtin/assignVariablesAction",
+          "parameters": {
+            "$page.variables.contact": {
+              "source": "{{ $chain.results.loadContact.body }}"
+            },
+            "$page.variables.contactETag": {
+              "source": "[[ $chain.results.loadContact.headers.get('ETag') ]]"
+            }
+          },
+          "outcomes": {}
+        },
+        "fireErrorNotification": {
+          "module": "vb/action/builtin/fireNotificationEventAction",
+          "parameters": {
+            "summary": "Could not load data",
+            "message": "{{ 'Could not load data: status ' + $chain.results.loadContact.payload.status }}",
+            "type": "error",
+            "displayMode": "persist"
+          },
+          "outcomes": {}
+        }
+      }
+    },
+    "saveContactChain": {
+      "variables": {
+        "saveFailureResult": {
+          "type": "page:businessObjectsServiceErrorResponseType"
+        },
+        "errorMessage": {
+          "type": "string"
+        },
+        "saveHeaders": {
+          "type": "object"
+        }
+      },
+      "root": "checkETag",
+      "actions": {
+        "checkETag": {
+          "module": "vb/action/builtin/ifAction",
+          "parameters": {
+            "condition": "[[ $page.variables.contactETag ]]"
+          },
+          "outcomes": {
+            "true": "assignIfMatchHeader",
+            "false": "saveContact"
+          }
+        },
+        "assignIfMatchHeader": {
+          "module": "vb/action/builtin/assignVariablesAction",
+          "parameters": {
+            "$chain.variables.saveHeaders": {
+              "source": "[[ { 'If-Match': $page.variables.contactETag } ]]"
+            }
+          },
+          "outcomes": {
+            "success": "saveContact"
+          }
+        },
+        "saveContact": {
+          "module": "vb/action/builtin/restAction",
+          "parameters": {
+            "endpoint": "businessObjects/update_Contact",
+            "body": "{{ $page.variables.contact }}",
+            "requestType": "json",
+            "uriParams": {
+              "Contact_Id": "[[ $page.variables.contactId ]]"
+            },
+            "headers": "[[ $chain.variables.saveHeaders ]]"
+          },
+          "outcomes": {
+            "success": "assignPayload",
+            "failure": "assignFailureResult"
+          }
+        },
+        "assignPayload": {
+          "module": "vb/action/builtin/assignVariablesAction",
+          "parameters": {
+            "$page.variables.contact": {
+              "source": "{{ $chain.results.saveContact.body }}"
+            },
+            "$page.variables.contactETag": {
+              "source": "[[ $chain.results.saveContact.headers.get('ETag') ]]"
+            }
+          },
+          "outcomes": {
+            "success": "fireSuccessNotification"
+          }
+        },
+        "fireSuccessNotification": {
+          "module": "vb/action/builtin/fireNotificationEventAction",
+          "parameters": {
+            "summary": "Contact saved",
+            "message": "Contact record successfully updated",
+            "type": "confirmation",
+            "displayMode": "transient"
+          },
+          "outcomes": {
+            "success": "callGoBackChain"
+          }
+        },
+        "callGoBackChain": {
+          "module": "vb/action/builtin/callChainAction",
+          "parameters": {
+            "id": "goBackChain"
+          }
+        },
+        "assignFailureResult": {
+          "module": "vb/action/builtin/assignVariablesAction",
+          "parameters": {
+            "$chain.variables.saveFailureResult": {
+              "source": "[[ $chain.results.saveContact.payload ]]",
+              "mapping": {
+                "$target": "$source",
+                "$target.body.o_errorDetails": {
+                  "source": "$source.body['o:errorDetails'] || []",
+                  "mapping": {
+                    "$target.o_errorCode": "$source['o:errorCode']",
+                    "$target.detail": "$source.detail"
+                  }
+                }
+              }
+            }
+          },
+          "outcomes": {
+            "success": "testFailureDetails"
+          }
+        },
+        "testFailureDetails": {
+          "module": "vb/action/builtin/ifAction",
+          "outcomes": {
+            "true": "handleDetailedErrorMessage",
+            "false": "handleDefaultErrorMessage"
+          },
+          "parameters": {
+            "condition": "[[ $chain.variables.saveFailureResult.body.o_errorDetails[0] ]]"
+          }
+        },
+        "handleDetailedErrorMessage": {
+          "module": "vb/action/builtin/assignVariablesAction",
+          "outcomes": {
+            "success": "fireErrorNotification"
+          },
+          "parameters": {
+            "$chain.variables.errorMessage": {
+              "source": "[[ $chain.variables.saveFailureResult.body.o_errorDetails[0].detail ]]"
+            }
+          }
+        },
+        "handleDefaultErrorMessage": {
+          "module": "vb/action/builtin/assignVariablesAction",
+          "outcomes": {
+            "success": "fireErrorNotification"
+          },
+          "parameters": {
+            "$chain.variables.errorMessage": {
+              "source": "[[ 'Could not update Contact: status ' + $chain.results.saveContact.payload.status ]]"
+            }
+          }
+        },
+        "fireErrorNotification": {
+          "module": "vb/action/builtin/fireNotificationEventAction",
+          "parameters": {
+            "summary": "Save failed",
+            "message": "[[ $chain.variables.errorMessage ]]",
+            "type": "error",
+            "displayMode": "persist"
+          }
+        }
+      }
+    }
+  },
+  "eventListeners": {
+    "backButtonClicked": {
+      "chains": [
+        {
+          "chainId": "goBackChain"
+        }
+      ]
+    },
+    "saveButtonClicked": {
+      "chains": [
+        {
+          "chainId": "saveContactChain"
+        }
+      ]
+    },
+    "vbEnter": {
+      "chains": [
+        {
+          "chainId": "loadContactChain"
+        }
+      ]
+    }
+  },
+  "imports": {
+    "components": {
+      "oj-form-layout": {
+        "path": "ojs/ojformlayout"
+      },
+      "oj-input-text": {
+        "path": "ojs/ojinputtext"
+      },
+      "oj-toolbar": {
+        "path": "ojs/ojtoolbar"
+      },
+      "oj-button": {
+        "path": "ojs/ojbutton"
+      }
+    }
+  }
+}
