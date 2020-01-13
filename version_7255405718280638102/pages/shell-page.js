@@ -1,1 +1,0 @@
-define(["jquery","ojs/ojbootstrap"],function(c,a){var b=function b(){};return b});

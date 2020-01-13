@@ -1,1 +1,0 @@
-define(["./boot-box-viewModel","ojs/ojcomposite","text!./boot-box-view.html","text!./component.json","css!./boot-box-styles"],function(b,d,a,c){d.register("boot-box",{view:a,viewModel:b,metadata:JSON.parse(c)})});

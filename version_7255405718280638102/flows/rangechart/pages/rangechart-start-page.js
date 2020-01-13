@@ -1,1 +1,0 @@
-define(["ojs/ojarraydataprovider"],function(a){var b=function b(){};b.prototype.console=function(c){console.log(c)};b.prototype.replaceGroup=function(d){var c=[];d.forEach(function(e){e.groupId=[e.group1.replace("[","").replace("]","")];e.seriesId=e.seriesid;delete e.group1;c.push(e)});return new a(c,{keyAttributes:"id"})};return b});

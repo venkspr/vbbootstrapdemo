@@ -1,1 +1,0 @@
-define(["knockout","ojs/ojbootstrap","ojs/ojattributegrouphandler","ojs/ojarraytreedataprovider","ojs/ojknockout","ojs/ojtreemap"],function(a,b,e,d){var c=function c(){};c.prototype.console=function(f){console.log(f)};c.prototype.assignTreeMapFN=function(f){return new d(f,{keyAttributes:"label",childrenAttribute:"nodes"})};return c});

@@ -1,1 +1,0 @@
-{"backends":{"ics":{"serviceType":"ics","servers":[{"x-vb":{"authentication":{"authenticated":{"type":"cloud"}}},"url":"https://intoraic-vbdemo.integration.ocp.oraclecloud.com:443"}]}}}

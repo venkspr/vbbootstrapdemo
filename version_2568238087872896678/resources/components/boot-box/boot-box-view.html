@@ -1,0 +1,22 @@
+<div  data-bind="attr:{class: 'col-md-' + $properties.columnSpan}">
+            <div class="card card-default">
+              <div class="card-header">
+                <h3 class="card-title">
+                  <i class="fas fa-exclamation-triangle"
+                  data-bind="attr:{class: 'fas ' + $properties.icon}"
+                  ></i>
+                  <oj-bind-text value="[[$properties.headerText]]">
+                  </oj-bind-text>
+                </h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body">
+                  <oj-bind-slot name="content-area"/>
+              </div>
+              <!-- /.card-body -->
+              <div>
+                  <oj-bind-slot name="content-footer" class="card-footer"/>
+              </div>
+            </div>
+            <!-- /.card -->
+          </div>
